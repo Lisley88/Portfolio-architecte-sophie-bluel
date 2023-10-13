@@ -29,13 +29,14 @@ for (let i = 0; i < category.length; i++) {
   btnElement.id = category[i].name.replaceAll(" ", "").replace("&", "");
   filtres.appendChild(btnElement);
 }
-//Créer le bouton tous
+//Créer le bouton "tous"
 const btnTous = document.createElement("button");
 btnTous.innerText = "Tous";
 btnTous.classList.add("button");
 btnTous.id = "tous";
 filtres.insertBefore(btnTous, filtres.children[0]);
 
+//Récupérer des boutons de filtres
 const worksElements = document.querySelectorAll(".gallery figure");
 const btnTousFiltre = document.querySelector("#tous");
 const btnObjets = document.querySelector("#Objets");
@@ -55,10 +56,12 @@ btnObjets.addEventListener("click", function () {
   });
   // Parcourir le tableau worksElements
   for (let i = 0; i < worksElements.length; i++) {
-    //condition "si l'élément parcouru dans le tableau works est un élément présent dans la constante objets" 
+    //condition "si l'élément parcouru dans le tableau works est un élément présent dans la constante objets"
     //si true, on affiche le worksElements parcouru, sinon, on le cache
-  objets.includes(data[i]) ? worksElements[i].style.display = "block" : worksElements[i].style.display = "none" }
-     
+    objets.includes(data[i])
+      ? (worksElements[i].style.display = "block")
+      : (worksElements[i].style.display = "none");
+  }
 });
 
 btnAppartements.addEventListener("click", function () {
@@ -66,8 +69,10 @@ btnAppartements.addEventListener("click", function () {
     return work.categoryId === 2;
   });
   for (let i = 0; i < worksElements.length; i++) {
-    appartements.includes(data[i]) ?  worksElements[i].style.display = "block" : worksElements[i].style.display = "none"
-    }
+    appartements.includes(data[i])
+      ? (worksElements[i].style.display = "block")
+      : (worksElements[i].style.display = "none");
+  }
 });
 
 btnHotelsRestaurants.addEventListener("click", function () {
@@ -75,6 +80,8 @@ btnHotelsRestaurants.addEventListener("click", function () {
     return work.categoryId === 3;
   });
   for (let i = 0; i < worksElements.length; i++) {
-    HotelsRestaurants.includes(data[i]) ? worksElements[i].style.display = "block" : worksElements[i].style.display = "none"
+    HotelsRestaurants.includes(data[i])
+      ? (worksElements[i].style.display = "block")
+      : (worksElements[i].style.display = "none");
   }
-})
+});
