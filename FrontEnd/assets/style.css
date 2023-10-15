@@ -148,6 +148,11 @@ header {
 	margin: 50px 0
 }
 
+nav a {
+	text-decoration: none;
+	color: #333;
+}
+
 section {
 	margin: 50px 0
 }

@@ -85,3 +85,5 @@ btnHotelsRestaurants.addEventListener("click", function () {
       : (worksElements[i].style.display = "none");
   }
 });
+
+const userToken = localStorage.getItem('token');

@@ -8,6 +8,11 @@ header ul li:nth-child(3) {
   font-weight: bold;
 }
 
+nav a {
+	text-decoration: none;
+	color: #333;
+}
+
 #login {
   width: 30%;
   margin: auto;
