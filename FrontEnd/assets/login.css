@@ -14,7 +14,7 @@ nav a {
 }
 
 #login {
-  width: 30%;
+  width: 40%;
   margin: auto;
 }
 
@@ -57,6 +57,12 @@ input[type="email"] {
   font-weight: bold;
   display: block;
   text-align: center;
+}
+#errormsg {
+  color:red;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 10px;
 }
 
 footer ul li {

@@ -20,7 +20,6 @@ async function postLoginForm () {
       // Afficher le message d'erreur 
       const errorMsg = document.querySelector("#errormsg");
       errorMsg.innerText = "L'email ou le mot de passe n'est pas correct";
-      errorMsg.style.color = "red";
     } else {
       // stocker le token d'identification 
         localStorage.setItem('token', result.token);
@@ -29,7 +28,7 @@ async function postLoginForm () {
     }
 }
 
-loginForm.addEventListener('submit', function(event) {
+loginForm.addEventListener("submit", (event) => {
     event.preventDefault(); //Empêcher la soumission par défaut du formulaire
 
     postLoginForm (); 

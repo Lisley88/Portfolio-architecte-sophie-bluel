@@ -86,4 +86,28 @@ btnHotelsRestaurants.addEventListener("click", function () {
   }
 });
 
-const userToken = localStorage.getItem('token');
+// récupération du token dans le local Storage
+const token = localStorage.getItem('token');
+const modeEdition = document.querySelector(".mode-edition");
+const btnModifier = document.querySelector(".btn-modifier");
+const filtresLogin = document.querySelector(".filter")
+
+if (token) {
+  // cacher les filtres
+  filtresLogin.style.display = "none";
+  //afficher la barre noire de modification
+  modeEdition.style.display = "flex";
+  //afficher le bouton de modification
+  btnModifier.style.display = "flex";
+  // Ajouter les espaces entres title et projets
+ const mesProjets = document.querySelector(".title-projets")
+ mesProjets.style.marginBottom = "68px"
+  // changement du login en logout
+  const btnLog = document.querySelector(".log");
+  btnLog.innerHTML = "logout";
+  //retirer le token du localStorage au logout
+  btnLog.addEventListener("click", () => {
+    localStorage.removeItem("token");
+    window.location.href="index.html";
+  })
+}
