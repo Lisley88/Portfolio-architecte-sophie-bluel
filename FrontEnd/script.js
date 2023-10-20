@@ -87,27 +87,69 @@ btnHotelsRestaurants.addEventListener("click", function () {
 });
 
 // récupération du token dans le local Storage
-const token = localStorage.getItem('token');
+const token = localStorage.getItem("token");
+
 const modeEdition = document.querySelector(".mode-edition");
 const btnModifier = document.querySelector(".btn-modifier");
 const filtresLogin = document.querySelector(".filter")
 
 if (token) {
-  // cacher les filtres
+  // Cacher les filtres
   filtresLogin.style.display = "none";
-  //afficher la barre noire de modification
+  // Afficher la barre noire de modification
   modeEdition.style.display = "flex";
-  //afficher le bouton de modification
+  // Afficher le bouton de modification
   btnModifier.style.display = "flex";
   // Ajouter les espaces entres title et projets
- const mesProjets = document.querySelector(".title-projets")
- mesProjets.style.marginBottom = "68px"
-  // changement du login en logout
-  const btnLog = document.querySelector(".log");
+  const mesProjets = document.querySelector(".title-projets")
+  mesProjets.style.marginBottom = "68px"
+  // Changement du login en logout
+  let btnLog = document.querySelector(".log");
   btnLog.innerHTML = "logout";
-  //retirer le token du localStorage au logout
+  // Retirer le token du localStorage au logout
   btnLog.addEventListener("click", () => {
     localStorage.removeItem("token");
-    window.location.href="index.html";
+    window.location.href ="index.html";
   })
 }
+
+
+
+
+
+// Open modal 1
+const openModal = document.querySelector(".btn-modifier")
+const modal1 = document.querySelector(".modal1-container")
+openModal.addEventListener('click', function() {
+    modal1.style.display = "flex";
+
+});
+
+//afficher les travaux via l'API
+const petitGallery = document.querySelector(".modal1-gallery");
+function creerpetitGallery() {
+  data.forEach((works) => {
+    petitGallery.innerHTML += ` 
+                  <div class="card">
+                    <img src="${works.imageUrl}" alt="${works.title}">
+                    <div class="trash-can">
+                    <i class="fa-solid fa-trash-can fa-xs"></i>
+                    </div>
+                  </div>`;
+  });
+  }
+  creerpetitGallery()
+
+// Fermer modal 1
+// 1. fermer la modal 1 au click sur la croix
+const cross = document.querySelector(".modal1-cross")
+cross.addEventListener("click",() => {
+  modal1.style.display = "none";
+});
+//2. fermer la modale 1 au clique en dehors de celle-ci
+const modalOverlay = document.querySelector(".overlay")
+modalOverlay.addEventListener("click", function(event) {
+if (event.target == modalOverlay) { 
+   modal1.style.display = "none"; 
+}
+});
