@@ -279,7 +279,7 @@ li:hover {
 .button {
 	height: 37px;
 	color: #1D6154;
-	background-color: white;
+	background-color: #FFFEF8;
 	font-family: Syne;
 	font-size: 16px;
 	font-weight: 700;
@@ -392,7 +392,7 @@ footer nav ul {
 
 
 /* ---Modal--- */
-.modal1-container {
+.modal1-container, .modal2-container {
 	position: fixed;
 	top: 0;
 	left: 0; 
@@ -407,7 +407,7 @@ footer nav ul {
 	background: rgba(0, 0, 0, 0.3);
 }
 
-.modal1 {
+.modal1, .modal2 {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -504,4 +504,95 @@ footer nav ul {
 .modal1-gallery .card {
 	display: flex;
 	width: 18%;
+}
+
+.modal2-header {
+	width: 100%;
+	height: 60px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.modal2-arrow, .modal2-cross {
+	padding-left: 30px;
+	margin-right: 30px;
+}
+
+.modal2-container h3 {
+	color: #000;
+	text-align: center;
+	font-family: Work Sans;
+	font-size: 26px;
+	font-weight: 400;
+	margin-bottom: 36px;
+}
+
+.ajout-photo {
+	width: 173px;
+  height: 36px;
+  border: 1px solid #CBD6DC;
+	border-radius: 50px;
+	background: #CBD6DC;
+  color: #306685;
+	text-align: center;
+	font-family: Work Sans;
+	font-size: 14px;
+	font-weight: 500;
+	margin-top: 6px;
+}
+
+.detail-photo {
+	color: #444444;
+	text-align: center;
+	font-family: Work Sans;
+	font-size: 10px;
+	font-weight: 400;
+	margin-top: 7px;
+	margin-bottom: 19px;
+}
+
+.box form{
+  display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 420px;
+	height: 169px;
+	border-radius: 3px;
+  background: #E8F1F6;
+	margin-left: 105px;
+	margin-right: 105px;
+	margin-bottom: 30px;
+}
+
+.modal2-valide {
+	width: 237px;
+	height: 36px;
+	border: 0px solid #A7A7A7;
+	border-radius: 60px;
+	background: #A7A7A7;
+	margin-bottom: 55px;
+	color: #FFF;
+	text-align: center;
+	font-family: Syne;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.titre {
+	color: #3D3D3D;
+	font-size: 14px;
+	font-weight: 500;
+	text-align: left;
+	align-self: flex-start;
+	margin: 25px 0 10px 105px;
+}
+
+#title, #category {
+	width: 67%;
+	height: 50px;
+	background: #FFF;
+  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+	border: none;
 }

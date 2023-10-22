@@ -130,12 +130,12 @@ const petitGallery = document.querySelector(".modal1-gallery");
 function creerpetitGallery() {
   data.forEach((works) => {
     petitGallery.innerHTML += ` 
-                  <div class="card">
+                  <figure class="card">
                     <img src="${works.imageUrl}" alt="${works.title}">
                     <div class="trash-can">
                     <i class="fa-solid fa-trash-can fa-xs"></i>
                     </div>
-                  </div>`;
+                  </figure>`;
   });
   }
   creerpetitGallery()
@@ -146,10 +146,80 @@ const cross = document.querySelector(".modal1-cross")
 cross.addEventListener("click",() => {
   modal1.style.display = "none";
 });
-//2. fermer la modale 1 au clique en dehors de celle-ci
+//2. fermer la modale 1 au clique en dehors de la modal
 const modalOverlay = document.querySelector(".overlay")
 modalOverlay.addEventListener("click", function(event) {
 if (event.target == modalOverlay) { 
    modal1.style.display = "none"; 
+   modal2.style.display = "none";
 }
 });
+
+
+//Open modal 2
+const openModal2 = document.querySelector(".modal1-button");
+const modal2 = document.querySelector(".modal2-container")
+openModal2.addEventListener('click', function() {
+  modal1.style.display = "none"; 
+  modal2.style.display = "flex";
+});
+// retouner la modal 1 au click sur la flèche
+const modal2Arrow = document.querySelector(".modal2-arrow")
+
+modal2Arrow.addEventListener ("click", () =>  {
+  modal1.style.display = "flex"; // on retire le display none pour rendre visible et ouvrir la modalstep1 //
+  modal2.style.display = "none"; // on ajoute le display none pour rendre invisible et fermer la modalstep2 //
+})
+
+//fermer la modal 2 au click sur la croix
+const modal2Cross = document.querySelector(".modal2-cross")
+modal2Cross.addEventListener("click",() => {
+  modal2.style.display = "none";
+});
+
+
+
+//suprimer les travaux
+const trashCan = document.querySelector(".card i")
+trashCan.addEventListener("click", async function () {
+  const workId = data[i].id;
+await fetch("http://localhost:5678/api/works" + "/" + "workId", {
+     method: 'DELETE',
+     headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    } , 
+    })  
+    .then(response => {
+      if (response.ok) {
+        const removeCard = document.getElementById(`${workId}`);
+        removeCard.remove();
+        const removeFigure = document.getElementById(`${workId}`);
+        removeFigure.remove();
+
+        console.log(workId)
+      }
+    })
+  })
+
+
+
+
+// Cette fonction permet de simuler le click sur le bouton de l'input file au click sur le container "ajout photo" //
+// function addPhoto() {
+//   const buttonFile = document.querySelector("#title"); // On sélectionne l'input //
+//   buttonFile.click(); // On déclenche le click par le code //
+// }
+
+
+// ouvrir la modale photo 
+const ajouterPhoto = document.querySelector(".ajout-photo")
+ajouterPhoto.addEventListener("click", function(){
+    
+  modal1.style.display="none";
+  modal2.style.display="block";
+  modal2Arrow.style.visibility="visible";
+  // ajouter.style.display="block";
+  // apercu.style.display="none";
+
+})
