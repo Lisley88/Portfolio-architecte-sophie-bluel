@@ -22,7 +22,7 @@ async function postLoginForm () {
       errorMsg.innerText = "L'email ou le mot de passe n'est pas correct";
     } else {
       // stocker le token d'identification 
-        localStorage.setItem('token', result.token);
+        localStorage.setItem("token", result.token);
         // Redirection vers la page index.html
         window.location.href= "index.html";
     }
