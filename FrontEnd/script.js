@@ -11,7 +11,6 @@ async function getWorks() {
                     <img src="${works.imageUrl}" alt="${works.title}">
                     <figcaption>${works.title}</figcaption>
                 </figure>`;
-                const workId = `${works.id}`
   });
 }
 getWorks();
@@ -145,7 +144,7 @@ function creerpetitGallery() {
                   <figure class="card" data-id="${works.id}">
                     <img src="${works.imageUrl}" alt="${works.title}">
                     <div class="trash-can">
-                    <i class="fa-solid fa-trash-can fa-xs"></i>
+                    <i class="fa-solid fa-trash-can fa-xs" data-id="${works.id}"></i>
                     </div>
                   </figure>`;
   });
@@ -154,32 +153,29 @@ creerpetitGallery();
 
 //suprimer les travaux
 const btnTrash = document.querySelector(".trash-can i");
- btnTrash.addEventListener("click", () => {
-  deleteWork()
- })
-
-function deleteWork(works) { 
-
-  fetch("http://localhost:5678/api/works/" + `${works.id}`, {
+petitGallery.addEventListener("click", (event) => {
+  event.preventDefault();
+  
+  if (event.target.tagName === "I") {
+    // alert(11)
+    console.log(event.target.dataset.id);
+  }
+  fetch("http://localhost:5678/api/works/" + `${event.target.dataset.id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token, 
+      Authorization: "Bearer " + token,
     },
   })
+  
+  .then((response) => response.json())
     .then((response) => {
-      // element supprimer
-      if (response.status == 204) { 
-        // proceder à :
-        //1/ mettre à jour le tableau global
-        console.log(works);
-        works = works.filter((element) => element.id != works.id);
-        console.log(works);
+      if (response.status == 204) {
+        event.preventDefault();
+        alert("suppression faite avec succes!");
+        data.splice(event.target.dataset.id, 1);
+        
 
-        //2/Agir sur les figures de la page index et enlever l'element supprimeé depuis le dom
-        document.querySelector(".figimg" + workId).remove();
-        //3/Eliminer aussi l'element supprimer depuis le dom
-        document.querySelector(".card" + workId).remove();
       }
       if (response.status == 401) {
         alert(
@@ -190,7 +186,9 @@ function deleteWork(works) {
     .catch(function (error) {
       console.log("Erreur lors de la suppression : " + error.message);
     });
-}
+    
+});
+
 
 // Fermer modal 1
 // 1. fermer la modal 1 au click sur la croix
@@ -231,7 +229,6 @@ modalOverlay2.addEventListener("click", function (event) {
     modal2.style.display = "none";
   }
 });
-
 
 //pour l'apercu de l'image dans la formulaire
 let image = document.getElementById("uploadimg");
@@ -293,34 +290,32 @@ Array.from(document.getElementById("envoyerimg")).forEach(function (element) {
 });
 
 //Créer formData pour envoyer la formulaire
-const formEl = document.getElementById("envoyerimg")
-formEl.addEventListener("submit",(event)=> {
-    event.preventDefault();
-    const newWorkTitle = document.getElementById("title").value
-    const newWorkCategory = document.getElementById("selectcategory").value
-    const newWorkImage = document.getElementById("uploadimg").files[0]
+const formEl = document.getElementById("envoyerimg");
+formEl.addEventListener("submit", (event) => {
+event.preventDefault();
+  const newWorkTitle = document.getElementById("title").value;
+  const newWorkCategory = document.getElementById("selectcategory").value;
+  const newWorkImage = document.getElementById("uploadimg").files[0];
 
-    const formData = new FormData()
-      formData.append("image", newWorkImage, newWorkImage.name);
-      formData.append("title", newWorkTitle);
-      formData.append("category", newWorkCategory);
-   
-      console.log("image", newWorkImage);
-  
+  const formData = new FormData();
+  formData.append("image", newWorkImage, newWorkImage.name);
+  formData.append("title", newWorkTitle);
+  formData.append("category", newWorkCategory);
 
-     fetch ("http://localhost:5678/api/works", {
-      method: "post",
-      headers: {
-        Authorization: "Bearer " + token,
-        },
-        body: formData,
-      })
-      .then ((response) => response.json())
-      .then ((response)=> {
-        if (response.ok) {
-          window.alert("envoye avec succes");
-        }
-      })
-        
-      })
+  console.log("image", newWorkImage);
 
+  fetch("http://localhost:5678/api/works", {
+    method: "post",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+    body: formData,
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) {
+        window.alert("envoye avec succes");
+      }
+    });
+    
+});
