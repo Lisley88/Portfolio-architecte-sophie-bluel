@@ -131,7 +131,7 @@ if (token) {
 
 // Open modal 1
 const openModal = document.querySelector(".btn-modifier");
-const modal1 = document.querySelector(".modal1-container");
+let modal1 = document.querySelector(".modal1-container");
 openModal.addEventListener("click", function () {
   modal1.style.display = "flex";
 });
@@ -139,27 +139,28 @@ openModal.addEventListener("click", function () {
 //afficher les travaux via l'API
 let petitGallery = document.querySelector(".modal1-gallery");
 function creerpetitGallery() {
+  let index = 0;
   data.forEach((works) => {
     petitGallery.innerHTML += ` 
                   <figure class="card" data-id="${works.id}">
                     <img src="${works.imageUrl}" alt="${works.title}">
                     <div class="trash-can">
-                    <i class="fa-solid fa-trash-can fa-xs" data-id="${works.id}"></i>
+                    <i class="fa-solid fa-trash-can fa-xs" data-id="${works.id}" data-index="${index}"></i>
                     </div>
                   </figure>`;
+      index++
   });
 }
 creerpetitGallery();
 
 //suprimer les travaux
-const btnTrash = document.querySelector(".trash-can i");
+// const btnTrash = document.querySelector(".trash-can i");
 petitGallery.addEventListener("click", (event) => {
   event.preventDefault();
   
   if (event.target.tagName === "I") {
-    // alert(11)
-    console.log(event.target.dataset.id);
-  }
+    // alert(J'ai bien selecte le botton)
+    // console.log(event.target.dataset.id); 
   fetch("http://localhost:5678/api/works/" + `${event.target.dataset.id}`, {
     method: "DELETE",
     headers: {
@@ -167,15 +168,18 @@ petitGallery.addEventListener("click", (event) => {
       Authorization: "Bearer " + token,
     },
   })
-  
-  .then((response) => response.json())
+  // .then((response) => response.json())
     .then((response) => {
       if (response.status == 204) {
-        event.preventDefault();
         alert("suppression faite avec succes!");
-        data.splice(event.target.dataset.id, 1);
-        
-
+        console.log(data);
+        console.log(event.target.dataset.index);
+        data.splice(event.target.dataset.index, 1);
+        console.log(data);
+        const modalImage = document.querySelector("figure[data-id='" + event.target.dataset.id + "']");
+        const galleryImage = document.querySelector(".figimg[data-id='" + event.target.dataset.id + "']")
+        modalImage.remove()
+        galleryImage.remove()
       }
       if (response.status == 401) {
         alert(
@@ -183,10 +187,10 @@ petitGallery.addEventListener("click", (event) => {
         );
       }
     })
-    .catch(function (error) {
+    .catch((error) => {
       console.log("Erreur lors de la suppression : " + error.message);
     });
-    
+    }
 });
 
 
@@ -290,9 +294,10 @@ Array.from(document.getElementById("envoyerimg")).forEach(function (element) {
 });
 
 //Créer formData pour envoyer la formulaire
+const btnValider = document.querySelector(".modal2-valide")
 const formEl = document.getElementById("envoyerimg");
-formEl.addEventListener("submit", (event) => {
-event.preventDefault();
+btnValider.addEventListener("click", (event) => {
+  event.preventDefault();
   const newWorkTitle = document.getElementById("title").value;
   const newWorkCategory = document.getElementById("selectcategory").value;
   const newWorkImage = document.getElementById("uploadimg").files[0];
@@ -301,9 +306,7 @@ event.preventDefault();
   formData.append("image", newWorkImage, newWorkImage.name);
   formData.append("title", newWorkTitle);
   formData.append("category", newWorkCategory);
-
-  console.log("image", newWorkImage);
-
+  console.log(newWorkImage);
   fetch("http://localhost:5678/api/works", {
     method: "post",
     headers: {
@@ -311,11 +314,14 @@ event.preventDefault();
     },
     body: formData,
   })
-    .then((response) => response.json())
     .then((response) => {
       if (response.ok) {
-        window.alert("envoye avec succes");
-      }
-    });
-    
+        alert("envoye avec succes");        
+      } 
+  });
+  
 });
+
+
+
+
