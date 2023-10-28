@@ -2,7 +2,6 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-
 html,
 body,
 div,
@@ -118,8 +117,9 @@ ul {
 
 a {
 	text-decoration: none;
-	color:#333;
+	color: #333;
 }
+
 blockquote,
 q {
 	quotes: none;
@@ -382,20 +382,18 @@ input[type="submit"] {
 	border-radius: 60px;
 }
 
-
-
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em;
 }
 
-
 /* ---Modal--- */
-.modal1-container, .modal2-container {
+.modal1-container,
+.modal2-container {
 	position: fixed;
 	top: 0;
-	left: 0; 
+	left: 0;
 	width: 100vw;
 	height: 100vh;
 }
@@ -407,7 +405,8 @@ footer nav ul {
 	background: rgba(0, 0, 0, 0.3);
 }
 
-.modal1, .modal2 {
+.modal1,
+.modal2 {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -516,7 +515,8 @@ footer nav ul {
 	align-items: center;
 }
 
-.modal2-arrow, .modal2-cross {
+.modal2-arrow,
+.modal2-cross {
 	padding-left: 30px;
 	margin-right: 30px;
 }
@@ -532,17 +532,19 @@ footer nav ul {
 
 .uploadimgage {
 	width: 173px;
-  height: 36px;
-  border: 1px solid #CBD6DC;
+	height: 16px;
+	border: 1px solid #CBD6DC;
 	border-radius: 50px;
 	background: #CBD6DC;
-  color: #306685;
+	color: #306685;
 	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
 	font-family: Work Sans;
 	font-size: 14px;
 	font-weight: 500;
 	margin-top: 6px;
-	
+
 }
 
 .detail-photo {
@@ -562,11 +564,11 @@ footer nav ul {
 	align-items: center;
 	background-color: #E8F1F6;
 	width: 67%;
-	height: 129px;
+	height: 169px;
 }
 
 .modal2 form {
-  display: flex;
+	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
@@ -599,11 +601,12 @@ footer nav ul {
 	margin: 25px 0 10px 105px;
 }
 
-#title, #selectcategory {
+#title,
+#selectcategory {
 	width: 67%;
 	height: 50px;
 	background: #FFF;
-  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
 	border: none;
 	padding: 0;
 }

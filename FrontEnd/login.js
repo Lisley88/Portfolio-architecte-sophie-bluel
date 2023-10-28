@@ -24,7 +24,7 @@ async function postLoginForm () {
       // stocker le token d'identification 
         localStorage.setItem("token", result.token);
         // Redirection vers la page index.html
-        window.location.href= "index.html";
+        document.location.href= "index.html";
     }
 }
 

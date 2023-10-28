@@ -1,9 +1,12 @@
 const gallery = document.querySelector(".gallery");
 let data = [];
+let petitImage = document.getElementById("preview");
+
 //Récuperer les travaux via API
 async function getWorks() {
   const response = await fetch("http://localhost:5678/api/works");
   data = await response.json();
+  gallery.innerHTML = "";
   //Affichage des travaux sur la page d'accueil
   data.forEach((works) => {
     gallery.innerHTML += ` 
@@ -138,7 +141,11 @@ openModal.addEventListener("click", function () {
 
 //afficher les travaux via l'API
 let petitGallery = document.querySelector(".modal1-gallery");
-function creerpetitGallery() {
+
+async function creerpetitGallery() {
+  const response = await fetch("http://localhost:5678/api/works");
+  data = await response.json();
+  petitGallery.innerHTML = "";
   let index = 0;
   data.forEach((works) => {
     petitGallery.innerHTML += ` 
@@ -148,7 +155,7 @@ function creerpetitGallery() {
                     <i class="fa-solid fa-trash-can fa-xs" data-id="${works.id}" data-index="${index}"></i>
                     </div>
                   </figure>`;
-      index++
+    index++;
   });
 }
 creerpetitGallery();
@@ -157,42 +164,41 @@ creerpetitGallery();
 // const btnTrash = document.querySelector(".trash-can i");
 petitGallery.addEventListener("click", (event) => {
   event.preventDefault();
-  
+
   if (event.target.tagName === "I") {
     // alert(J'ai bien selecte le botton)
-    // console.log(event.target.dataset.id); 
-  fetch("http://localhost:5678/api/works/" + `${event.target.dataset.id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    },
-  })
-  // .then((response) => response.json())
-    .then((response) => {
-      if (response.status == 204) {
-        alert("suppression faite avec succes!");
-        console.log(data);
-        console.log(event.target.dataset.index);
-        data.splice(event.target.dataset.index, 1);
-        console.log(data);
-        const modalImage = document.querySelector("figure[data-id='" + event.target.dataset.id + "']");
-        const galleryImage = document.querySelector(".figimg[data-id='" + event.target.dataset.id + "']")
-        modalImage.remove()
-        galleryImage.remove()
-      }
-      if (response.status == 401) {
-        alert(
-          "Veuillez vous authentifier de nouveau! votre token est expiré !"
-        );
-      }
+    // console.log(event.target.dataset.id);
+    fetch("http://localhost:5678/api/works/" + `${event.target.dataset.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
     })
-    .catch((error) => {
-      console.log("Erreur lors de la suppression : " + error.message);
-    });
-    }
+      .then((response) => {
+        if (response.status == 204) {
+          alert("suppression faite avec succes!");
+          data.splice(event.target.dataset.index, 1);
+          const modalImage = document.querySelector(
+            "figure[data-id='" + event.target.dataset.id + "']"
+          );
+          const galleryImage = document.querySelector(
+            ".figimg[data-id='" + event.target.dataset.id + "']"
+          );
+          modalImage.remove();
+          galleryImage.remove();
+        }
+        if (response.status == 401) {
+          alert(
+            "Veuillez vous authentifier de nouveau! votre token est expiré !"
+          );
+        }
+      })
+      .catch((error) => {
+        console.log("Erreur lors de la suppression : " + error.message);
+      });
+  }
 });
-
 
 // Fermer modal 1
 // 1. fermer la modal 1 au click sur la croix
@@ -220,6 +226,11 @@ const modal2Arrow = document.querySelector(".modal2-arrow");
 modal2Arrow.addEventListener("click", () => {
   modal1.style.display = "flex"; // on retire le display none pour rendre visible et ouvrir la modalstep1 //
   modal2.style.display = "none"; // on ajoute le display none pour rendre invisible et fermer la modalstep2 //
+  petitImage.src = "";
+  image.style.dispaly = "block";
+  icone.style.display = "block";
+  addPhoto.style.display = "block";
+  detailPhoto.style.display = "block";
 });
 //1. fermer la modal 2 au click sur la croix
 const modal2Cross = document.querySelector(".modal2-cross");
@@ -236,12 +247,11 @@ modalOverlay2.addEventListener("click", function (event) {
 
 //pour l'apercu de l'image dans la formulaire
 let image = document.getElementById("uploadimg");
+let file = document.getElementById("uploadimg").files;
+const icone = document.querySelector(".addimg svg");
+const addPhoto = document.querySelector(".uploadimgage");
+const detailPhoto = document.querySelector(".detail-photo");
 image.addEventListener("change", function () {
-  let file = document.getElementById("uploadimg").files;
-  let petitImage = document.getElementById("preview");
-  const icone = document.querySelector(".addimg svg");
-  const addPhoto = document.querySelector(".uploadimgage");
-  const detailPhoto = document.querySelector(".detail-photo");
   if (file.length > 0) {
     let fileReader = new FileReader();
     fileReader.onload = function (event) {
@@ -294,10 +304,10 @@ Array.from(document.getElementById("envoyerimg")).forEach(function (element) {
 });
 
 //Créer formData pour envoyer la formulaire
-const btnValider = document.querySelector(".modal2-valide")
 const formEl = document.getElementById("envoyerimg");
-btnValider.addEventListener("click", (event) => {
+formEl.addEventListener("submit", (event) => {
   event.preventDefault();
+
   const newWorkTitle = document.getElementById("title").value;
   const newWorkCategory = document.getElementById("selectcategory").value;
   const newWorkImage = document.getElementById("uploadimg").files[0];
@@ -306,7 +316,7 @@ btnValider.addEventListener("click", (event) => {
   formData.append("image", newWorkImage, newWorkImage.name);
   formData.append("title", newWorkTitle);
   formData.append("category", newWorkCategory);
-  console.log(newWorkImage);
+
   fetch("http://localhost:5678/api/works", {
     method: "post",
     headers: {
@@ -316,12 +326,17 @@ btnValider.addEventListener("click", (event) => {
   })
     .then((response) => {
       if (response.ok) {
-        alert("envoye avec succes");        
-      } 
-  });
-  
+        const newWork = response.json();
+        getWorks(newWork);
+        creerpetitGallery(newWork); 
+        formEl.reset();
+        modal2Arrow.click(); // retourner sur modal1 gallery
+      }
+    })
+    .catch((error) => {
+      console.log("erreur lors de la creation : " + error.message);
+      alert("Une erreur est survenue lors de l'ajout de photo");
+    });
 });
 
-
-
-
+//reset du formulaire
