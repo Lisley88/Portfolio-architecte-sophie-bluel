@@ -1,6 +1,9 @@
 const gallery = document.querySelector(".gallery");
 let data = [];
 let petitImage = document.getElementById("preview");
+const icone = document.querySelector(".addimg svg");
+const addPhoto = document.querySelector(".uploadimage");
+const detailPhoto = document.querySelector(".detail-photo");
 
 //Récuperer les travaux via API
 async function getWorks() {
@@ -161,7 +164,7 @@ async function creerpetitGallery() {
 creerpetitGallery();
 
 //suprimer les travaux
-// const btnTrash = document.querySelector(".trash-can i");
+const errorMessage = document.querySelector(".error-message");
 petitGallery.addEventListener("click", (event) => {
   event.preventDefault();
 
@@ -189,17 +192,16 @@ petitGallery.addEventListener("click", (event) => {
           galleryImage.remove();
         }
         if (response.status == 401) {
-          alert(
-            "Veuillez vous authentifier de nouveau! votre token est expiré !"
-          );
+          errorMessage.innerText =
+            "Veuillez vous authentifier de nouveau! votre token est expiré !";
         }
       })
       .catch((error) => {
-        console.log("Erreur lors de la suppression : " + error.message);
+        errorMessage.innerText =
+          "Erreur lors de la suppression : " + error.message;
       });
   }
 });
-
 // Fermer modal 1
 // 1. fermer la modal 1 au click sur la croix
 const cross = document.querySelector(".modal1-cross");
@@ -226,8 +228,8 @@ const modal2Arrow = document.querySelector(".modal2-arrow");
 modal2Arrow.addEventListener("click", () => {
   modal1.style.display = "flex"; // on retire le display none pour rendre visible et ouvrir la modalstep1 //
   modal2.style.display = "none"; // on ajoute le display none pour rendre invisible et fermer la modalstep2 //
-  petitImage.src = "";
-  image.style.dispaly = "block";
+  // reset du formulaire
+  petitImage.style.display = "none";
   icone.style.display = "block";
   addPhoto.style.display = "block";
   detailPhoto.style.display = "block";
@@ -247,11 +249,10 @@ modalOverlay2.addEventListener("click", function (event) {
 
 //pour l'apercu de l'image dans la formulaire
 let image = document.getElementById("uploadimg");
-let file = document.getElementById("uploadimg").files;
-const icone = document.querySelector(".addimg svg");
-const addPhoto = document.querySelector(".uploadimgage");
-const detailPhoto = document.querySelector(".detail-photo");
+
 image.addEventListener("change", function () {
+  let file = document.getElementById("uploadimg").files;
+
   if (file.length > 0) {
     let fileReader = new FileReader();
     fileReader.onload = function (event) {
@@ -294,6 +295,8 @@ function checkFormInputs() {
     validAjoutPhoto.style.backgroundColor = "#1D6154";
   } else {
     validAjoutPhoto.style.backgroundColor = "";
+    errorMessage.innerText = "Veillez remplir tous les champs";
+    errorMessage.style.color = "red";
   }
 }
 // écouteur d'évènement pour checker les inputs de formulaire
@@ -328,7 +331,9 @@ formEl.addEventListener("submit", (event) => {
       if (response.ok) {
         const newWork = response.json();
         getWorks(newWork);
-        creerpetitGallery(newWork); 
+        creerpetitGallery(newWork);
+        errorMessage.innerText = "Photo ajouté";
+        errorMessage.style.color = "green";
         formEl.reset();
         modal2Arrow.click(); // retourner sur modal1 gallery
       }
@@ -338,5 +343,3 @@ formEl.addEventListener("submit", (event) => {
       alert("Une erreur est survenue lors de l'ajout de photo");
     });
 });
-
-//reset du formulaire
