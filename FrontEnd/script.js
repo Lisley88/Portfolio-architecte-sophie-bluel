@@ -110,7 +110,6 @@ btnHotelsRestaurants.addEventListener("click", function () {
 
 // récupération du token dans le local Storage
 const token = localStorage.getItem("token");
-
 const modeEdition = document.querySelector(".mode-edition");
 const btnModifier = document.querySelector(".btn-modifier");
 const filtresLogin = document.querySelector(".filter");
@@ -169,7 +168,7 @@ petitGallery.addEventListener("click", (event) => {
   event.preventDefault();
 
   if (event.target.tagName === "I") {
-    // alert(J'ai bien selecte le botton)
+    // alert(J'ai bien selecte le boutton)
     // console.log(event.target.dataset.id);
     fetch("http://localhost:5678/api/works/" + `${event.target.dataset.id}`, {
       method: "DELETE",
@@ -249,14 +248,16 @@ modalOverlay2.addEventListener("click", function (event) {
 
 //pour l'apercu de l'image dans la formulaire
 let image = document.getElementById("uploadimg");
-
 image.addEventListener("change", function () {
   let file = document.getElementById("uploadimg").files;
 
   if (file.length > 0) {
+    // Créer un lecteur de fichier
     let fileReader = new FileReader();
+     // Lorsque le fichier est chargé avec succès
     fileReader.onload = function (event) {
       petitImage.style.display = "block";
+       // Mettre à jour la source de l'image avec les données du fichier
       petitImage.setAttribute("src", event.target.result);
       petitImage.style.width = "129px";
       petitImage.style.height = "169px";
@@ -265,6 +266,7 @@ image.addEventListener("change", function () {
       addPhoto.style.display = "none";
       detailPhoto.style.display = "none";
     };
+    // Lire le contenu du fichier en tant que URL de données
     fileReader.readAsDataURL(file[0]);
   }
 });
@@ -295,8 +297,6 @@ function checkFormInputs() {
     validAjoutPhoto.style.backgroundColor = "#1D6154";
   } else {
     validAjoutPhoto.style.backgroundColor = "";
-    errorMessage.innerText = "Veillez remplir tous les champs";
-    errorMessage.style.color = "red";
   }
 }
 // écouteur d'évènement pour checker les inputs de formulaire
@@ -306,7 +306,7 @@ Array.from(document.getElementById("envoyerimg")).forEach(function (element) {
   });
 });
 
-//Créer formData pour envoyer la formulaire
+// Ajouter un écouteur d'événements au formulaire modal pour la soumission
 const formEl = document.getElementById("envoyerimg");
 formEl.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -315,11 +315,11 @@ formEl.addEventListener("submit", (event) => {
   const newWorkCategory = document.getElementById("selectcategory").value;
   const newWorkImage = document.getElementById("uploadimg").files[0];
 
-  const formData = new FormData();
-  formData.append("image", newWorkImage, newWorkImage.name);
-  formData.append("title", newWorkTitle);
-  formData.append("category", newWorkCategory);
-
+  const formData = new FormData(); // Créer un objet FormData pour stocker les données du formulaire
+  formData.append("image", newWorkImage, newWorkImage.name);  //Ajouter le fichier image au FormData
+  formData.append("title", newWorkTitle);//Ajouter le titre du projet au FormData
+  formData.append("category", newWorkCategory); //Ajouter la catégorie du projet au FormData
+// Effectuer une requête POST vers le serveur local
   fetch("http://localhost:5678/api/works", {
     method: "post",
     headers: {
@@ -327,14 +327,12 @@ formEl.addEventListener("submit", (event) => {
     },
     body: formData,
   })
-    .then((response) => {
-      if (response.ok) {
+    .then((response) => { // Utiliser l'objet FormData comme corps de la requête
+      if (response.ok) { 
         const newWork = response.json();
         getWorks(newWork);
         creerpetitGallery(newWork);
-        errorMessage.innerText = "Photo ajouté";
-        errorMessage.style.color = "green";
-        formEl.reset();
+        formEl.reset(); //reset du formulaire
         modal2Arrow.click(); // retourner sur modal1 gallery
       }
     })

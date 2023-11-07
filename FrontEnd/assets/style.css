@@ -444,12 +444,6 @@ footer nav ul {
 }
 
 .modal1-gallery {
-	/* display: flex;
-	flex-wrap: wrap;
-	gap: 22px 10px;
-	padding-left: 105px;
-	padding-right: 105px;
-	padding-top: 46px; */
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	margin: 46px 105px 20.3px 105px;
@@ -465,7 +459,6 @@ footer nav ul {
 .modal1-gallery .card {
 	position: relative;
 	width: 100%;
-	/* display: flex; */
 }
 
 .modal1-gallery .trash-can {
